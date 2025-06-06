@@ -6,24 +6,25 @@ import torch
 from diffusers import StableDiffusionPipeline
 import io
 import base64
+import os
+from datetime import datetime
 
-class ImageGenInput(BaseModel):
-    """Input schema for the Image Generation Tool."""
-    prompt: str = Field(..., description="Visual description to generate the image from.")
-    text_content: str = Field(..., description="Text content to combine with the image.")
+class ImagePromptInput(BaseModel):
+    """Input schema for generating an image from a prompt."""
+    prompt: str = Field(..., description="A detailed visual prompt for image generation from marketing_content_generators output")
 
-class ImageWithTextTool(BaseTool):
-    """Tool to generate an image from a prompt and combine it with text."""
+class ImageGenFromPromptTool(BaseTool):
+    """Tool to generate image using Stable Diffusion based on a prompt."""
 
-    name: str = "image_text_creator"
+    name: str = "image_generator_from_prompt"
     description: str = (
-        "Generates an image using Stable Diffusion from a text prompt, and combines it with marketing copy." 
-        "Returns base64 image and editable text content."
+        "Generates an image using Stable Diffusion from a visual prompt. "
+        "Returns base64 string and saves image to the 'output/' folder."
     )
-    args_schema: Type[BaseModel] = ImageGenInput
+    args_schema: Type[BaseModel] = ImagePromptInput
 
-    def _run(self, prompt: str, text_content: str) -> Dict[str, Any]:
-        # Load Stable Diffusion pipeline
+    def _run(self, prompt: str) -> Dict[str, Any]:
+        # Load model
         model_id = "dreamlike-art/dreamlike-diffusion-1.0"
         pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16, use_safetensors=True)
         pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
@@ -31,13 +32,19 @@ class ImageWithTextTool(BaseTool):
         # Generate image
         image = pipe(prompt).images[0]
 
-        # Convert to base64
+        # Save to output folder with timestamped filename
+        os.makedirs("output", exist_ok=True)
+        filename = f"output/generated_image.png"
+        image.save(filename)
+
+        # Encode to base64
         buffered = io.BytesIO()
         image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
         return {
+            "prompt_used": prompt,
             "image_base64": img_str,
-            "text_content": text_content,
-            "note": "You can edit the text content below the image as needed."
+            "file_saved_at": filename,
+            "note": "Image saved to disk and returned in base64."
         }

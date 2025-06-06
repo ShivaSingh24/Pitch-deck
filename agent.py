@@ -14,7 +14,7 @@ import gradio as gr
 
 from tools.marketing_content import MarketingContentTool
 from tools.OCR_Tool import OCRTool
-from tools.post_creator import ImageWithTextTool
+from tools.post_creator import ImageGenFromPromptTool
 
 # Load environment
 load_dotenv()
@@ -26,9 +26,9 @@ ocr_tool = OCRTool()
 if not os.environ.get("GROQ_API_KEY"):
     os.environ["GROQ_API_KEY"] = getpass.getpass("Enter API key for Groq: ")
 
-model_llm = init_chat_model("llama-3.1-8b-instant", model_provider="groq", max_tokens=20000)
+model_llm = init_chat_model("llama-3.1-8b-instant", model_provider="groq", max_tokens=2000)
 marketing_content = MarketingContentTool(model=model_llm)
-post_creator = ImageWithTextTool()
+post_creator = ImageGenFromPromptTool()
 
 tools = [websearch1, post_creator, marketing_content]
 
@@ -85,7 +85,7 @@ def process_query(input_text, input_image, input_pdf):
     print("Agent response:", query_txt[-1:])
 
     # Image path to show (optional)
-    output_path = "rtdetr_output/temp_output/out_plotted.png" if input_image else None
+    output_path = "output/generated_image.png" if input_image else None
     return query_txt[-1], output_path
 
 
