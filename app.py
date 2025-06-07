@@ -26,7 +26,7 @@ cloudinary.config(
 )
 
 # Model and tools
-model = init_chat_model("llama-3.3-70b-versatile", model_provider="groq", max_tokens=5000)
+model = init_chat_model("llama-3.3-70b-versatile", model_provider="groq", max_tokens=5000,temperature=0.9)
 ocr_tool = OCRTool()
 
 class Joke(TypedDict):
@@ -63,7 +63,7 @@ async def generate(
             print(response.content)
             print('pdf created')
         print(os.path.exists(temp_pdf_path))
-        
+
     except Exception as e:
         return {"error": f"Failed to download PDF: {str(e)}"}
 
@@ -87,9 +87,27 @@ async def generate(
 
     # Step 4: Generate creative response
     try:
-        final_prompt = f"This is information about my company/business/startup/me: {sum_report},{user_query}"
+        # final_prompt = f"user_quer:{user_query},This is information about my company/business/startup/me: {sum_report}"
         # final_prompt = f"This is information about my company/business/startup/me: {sum_report}"
+        final_prompt = f"""
+        You are a marketing assistant AI.
+
+        Your job is to generate:
+        1. A creative and catchy marketing/promotion message/posts (3-4 sentences), such that it is written by some human, use some rhyming or taglines at end
+        2. A one-line simple image prompt describing a creative visual in hd
+
+        Only return the following keys as output:
+        - 'response': the marketing copy
+        - 'image_prompt': the visual scene to depict the message
+
+        Do not add any other fields or explain anything. Just return a valid object matching the format.
+
+        Input:
+        - user_query: {user_query}
+        - business_summary: {sum_report}
+        """
         result = structured_llm.invoke(final_prompt)
+        image_prompt = result['image_prompt']
         print('---------result:',result)
     except Exception as e:
         return {"error": f"LLM generation failed: {str(e)}"}
@@ -97,7 +115,7 @@ async def generate(
 
     # Step 5: Generate image
     try:
-        image = pipe(result['Image_prompt']).images[0]
+        image = pipe(image_prompt).images[0]
         temp_image_path = f"/tmp/marketing_{uuid4().hex}.png"
         image.save(temp_image_path)
     except Exception as e:
