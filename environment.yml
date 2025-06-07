@@ -1,0 +1,5 @@
+name: medrax
+channels:
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+prefix: /mnt/nvme_disk2/User_data/ss57076k/anaconda3/envs/medrax

@@ -34,17 +34,16 @@ class ImageGenFromPromptTool(BaseTool):
 
         # Save to output folder with timestamped filename
         os.makedirs("output", exist_ok=True)
-        filename = f"output/generated_image.png"
+        filename = "../output/generated_image.png"
         image.save(filename)
 
-        # Encode to base64
-        buffered = io.BytesIO()
-        image.save(buffered, format="PNG")
-        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        # # Encode to base64
+        # buffered = io.BytesIO()
+        # image.save(buffered, format="PNG")
+        # img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
         return {
             "prompt_used": prompt,
-            "image_base64": img_str,
             "file_saved_at": filename,
             "note": "Image saved to disk and returned in base64."
         }
