@@ -56,13 +56,13 @@ async def generate(
     try:
         response = requests.get(pdf_url)
         response.raise_for_status()
-        print(response)
-        print(response.content)
+        # print(response)
+        # print(response.content)
         with open(temp_pdf_path, "wb") as f:
             f.write(response.content)
-            print(response.content)
-            print('pdf created')
-        print(os.path.exists(temp_pdf_path))
+            # print(response.content)
+            # print('pdf created')
+        # print(os.path.exists(temp_pdf_path))
 
     except Exception as e:
         return {"error": f"Failed to download PDF: {str(e)}"}
@@ -93,7 +93,7 @@ async def generate(
         You are a marketing assistant AI.
 
         Your job is to generate:
-        1. A creative and catchy marketing/promotion message/posts (3-4 sentences), such that it is written by some human, use some rhyming or taglines at end
+        1. A creative and catchy marketing/promotion message/posts (3-4 sentences), such that it is written by some human, use some rhyming or taglines at end add hashtags as well
         2. A one-line simple image prompt describing a creative visual in hd
 
         Only return the following keys as output:
