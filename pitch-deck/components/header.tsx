@@ -21,7 +21,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <h1 className="text-2xl font-bold text-gray-900">
-              AI<span className="text-blue-500">Marketing</span>
+             Creaco<span style={{ color: '#c54dd8' }}>AI</span>
             </h1>
           </div>
 

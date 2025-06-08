@@ -114,6 +114,13 @@ export function LiveDemo() {
     formData.append("pdf_url", pdfUrl);
     formData.append("user_query", userQuery);
 
+
+    // Print each key-value pair
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+    
+    
     try {
       const response = await fetch("http://localhost:8002/generate", {
         method: "POST",
@@ -125,6 +132,7 @@ export function LiveDemo() {
       }
 
       const data = await response.json();
+      console.log(data)
       setGeneratedPost({
         text: data.response,
         imageUrl: data.image_url,
@@ -227,13 +235,13 @@ export function LiveDemo() {
                   type="text"
                   value={userQuery}
                   onChange={(e) => setUserQuery(e.target.value)}
-                  placeholder="E.g., Create a LinkedIn campaign for the food delivery startup"
+                  placeholder="E.g., Create a Marketing Campaign etc."
                   className="mt-1 block w-full"
                 />
                 <Button
                   onClick={generatePost}
                   disabled={isGenerating || !userQuery}
-                  className="mt-2 w-full bg-blue-500 hover:bg-blue-600"
+                  className="mt-2 w-full bg-[#c54dd8] hover:bg-[#a83fba]"
                 >
                   {isGenerating ? (
                     <>

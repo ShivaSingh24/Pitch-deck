@@ -11,11 +11,21 @@ from tools.OCR_Tool import OCRTool
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # ---- CONFIG ----
 
 # FastAPI app
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or "*" to allow all (less secure)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Cloudinary config
 cloudinary.config( 
@@ -30,8 +40,14 @@ model = init_chat_model("llama-3.3-70b-versatile", model_provider="groq", max_to
 ocr_tool = OCRTool()
 
 class Joke(TypedDict):
-    response: Annotated[str, 'Creative response according to user query to help them in marketing']
-    Image_prompt: Annotated[str, 'Prompt to generate poster/image in cartoon style']
+    response: Annotated[str, 
+        "A compelling, imaginative response tailored to the user's input that includes a clear marketing message, call-to-action (CTA), target audience alignment, and emotional appeal. "
+        "Use persuasive language that resonates with the user's goal—whether it's to boost brand awareness, promote a product, or drive engagement. "
+        "The response should feel conversational, modern, and brand-aligned while clearly conveying benefits or features."]
+    Image_prompt: Annotated[str,  "A vivid, imaginative prompt for generating a cartoon-style marketing poster. Describe characters, setting, colors, action, and objects that align with the campaign theme. "
+        "Specify emotion (e.g., excitement, trust), target audience (e.g., kids, professionals), and poster elements like text overlays or brand logos. "
+        "Ensure the visual supports the message of the creative response."
+    ]
 
 structured_llm = model.with_structured_output(Joke)
 

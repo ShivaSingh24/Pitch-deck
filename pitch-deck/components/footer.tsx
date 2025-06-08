@@ -8,7 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <h3 className="text-2xl font-bold mb-4">
-              AI<span className="text-blue-400">Marketing</span>
+              Creaco<span style={{ color: '#c54dd8' }}>AI</span>
             </h3>
             <p className="text-gray-400 mb-4">
               Transform your content into engaging marketing posts with the power of AI.
@@ -21,10 +21,10 @@ export function Footer() {
             <div className="space-y-2">
               <a
                 href="mailto:hello@aimarketing.com"
-                className="flex items-center text-gray-400 hover:text-white transition-colors"
+                className="flex items-center text-gray-400 hover:text-[#c54dd8] transition-colors"
               >
                 <Mail className="h-4 w-4 mr-2" />
-                hello@aimarketing.com
+                shivasinghjadon9927@gmail.com
               </a>
             </div>
           </div>
@@ -35,21 +35,21 @@ export function Footer() {
             <div className="flex space-x-4">
               <a
                 href="https://github.com"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-[#c54dd8] transition-colors"
                 aria-label="GitHub"
               >
                 <Github className="h-6 w-6" />
               </a>
               <a
                 href="https://twitter.com"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-[#c54dd8] transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter className="h-6 w-6" />
               </a>
               <a
                 href="https://linkedin.com"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-[#c54dd8] transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-6 w-6" />

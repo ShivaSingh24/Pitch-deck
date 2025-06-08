@@ -33,10 +33,10 @@ export function HowItWorks() {
           {steps.map((step, index) => (
             <div key={index} className="text-center">
               <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                  <step.icon className="h-8 w-8 text-blue-500" />
+                <div className="bg-[#f4d9f8] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <step.icon className="h-8 w-8 text-[#c54dd8]" />
                 </div>
-                <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-4 text-sm font-bold">
+                <div className="bg-[#c54dd8] text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-4 text-sm font-bold">
                   {index + 1}
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{step.title}</h3>
